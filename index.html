@@ -1,0 +1,155 @@
+
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="theme-color" content="#eee4d6">
+<title>Daily Devotion</title>
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@400;500;600;700&family=IM+Fell+English:ital@0;1&family=Kalam:wght@300;400;700&display=swap');
+:root{--paper:#f5eee3;--paper2:#ebe0d1;--ink:#443b3a;--muted:#81736e;--purple:#76618d;--purple2:#e8dfed;--rose:#c58e98;--rose2:#f2e2e3;--line:#d8cabb;--sage:#8d9a83;--white:#fffaf3;--shadow:0 12px 34px #5b463018}
+*{box-sizing:border-box}body{margin:0;background:radial-gradient(circle at 10% 5%,#fff9ef 0,transparent 32%),var(--paper);color:var(--ink);font-family:'Cormorant Garamond',serif;font-size:19px}
+button,input,textarea,select{font:inherit;color:inherit}button{cursor:pointer}
+#app{max-width:1180px;margin:auto;padding:24px}
+header{display:flex;align-items:center;justify-content:space-between;gap:18px;padding:12px 4px 22px;border-bottom:1px solid var(--line)}
+.brand{font-family:'IM Fell English',serif;font-size:35px;letter-spacing:.3px}.brand small{display:block;font:italic 14px 'Kalam',cursive;color:var(--muted);letter-spacing:1px}
+#lockBtn,.soft-btn,.nav button,.primary{border:1px solid var(--line);background:#fffaf3b8;border-radius:999px;padding:9px 15px}
+#lockBtn:hover,.soft-btn:hover,.nav button:hover{border-color:var(--purple);background:var(--purple2)}
+.nav{display:flex;flex-wrap:wrap;gap:8px;padding:18px 0}.nav button{font-size:17px}.nav button.active{background:var(--purple);color:white;border-color:var(--purple)}
+main{min-height:62vh}.panel{background:#fffaf3c9;border:1px solid var(--line);border-radius:18px;padding:clamp(18px,3vw,30px);box-shadow:var(--shadow);margin-bottom:18px}
+.eyebrow{text-transform:uppercase;letter-spacing:2px;font:12px 'Kalam',cursive;color:var(--purple)}
+h1,h2,h3{font-family:'IM Fell English',serif;font-weight:400;margin:.25em 0 .45em}h1{font-size:clamp(34px,5vw,52px)}h2{font-size:32px}h3{font-size:25px}
+p{line-height:1.55}.muted{color:var(--muted)}.script{font-family:'Kalam',cursive}.greeting{font-size:22px;color:var(--purple);font-style:italic}
+.grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:15px}.tile{background:var(--white);border:1px solid var(--line);border-radius:14px;padding:18px;min-height:132px}.tile button{margin-top:8px}
+input,textarea,select{width:100%;padding:11px 13px;background:#fffdf8;border:1px solid var(--line);border-radius:10px;margin:5px 0 12px}textarea{min-height:105px;resize:vertical}label{display:block;font:15px 'Kalam',cursive;color:var(--muted);margin-top:8px}
+.primary{background:var(--purple);border-color:var(--purple);color:white;padding:10px 18px}.primary:hover{filter:brightness(.94)}.soft-btn{padding:8px 14px}.row{display:flex;gap:10px;align-items:center;flex-wrap:wrap}.row>*{flex:1}
+.paper-note{background:linear-gradient(90deg,#f8f1e7,#fffaf2);border-left:4px solid var(--rose);padding:17px 20px;margin:16px 0;font-style:italic}
+.rule{border:0;border-top:1px solid var(--line);margin:20px 0}
+.book-page{max-width:760px;margin:0 auto;background:#fbf4e8;border:1px solid #d7c5ae;padding:clamp(22px,5vw,48px);box-shadow:inset 0 0 35px #9b7c4b12, var(--shadow);position:relative}
+.book-page:before{content:"";position:absolute;left:14px;top:18px;bottom:18px;border-left:1px solid #d8cabb}
+.book-page h2{text-align:center}.chapter{font:italic 17px 'IM Fell English',serif;text-align:center;color:var(--muted)}
+.verse-tools{display:flex;gap:7px;flex-wrap:wrap;margin:12px 0}.swatch{width:26px;height:26px;border-radius:50%;border:1px solid #bcae9e;padding:0}.swatch[data-color="purple"]{background:#d9c9e7}.swatch[data-color="rose"]{background:#efd0d4}.swatch[data-color="beige"]{background:#e9d9b9}.swatch.selected{outline:2px solid var(--purple);outline-offset:2px}
+.entry{padding:12px 0;border-bottom:1px solid var(--line)}.entry:last-child{border:0}.tag{display:inline-block;border-radius:99px;padding:3px 10px;background:var(--purple2);font:12px 'Kalam',cursive;margin:3px}
+.stat{font-size:34px;color:var(--purple);font-family:'IM Fell English',serif}.calendar{display:grid;grid-template-columns:repeat(7,1fr);gap:6px}.day{padding:8px 2px;text-align:center;background:#fffdf8;border:1px solid var(--line);border-radius:8px;font-size:15px}.day.done{background:var(--purple2);border-color:#c9b5d9}.day.today{outline:2px solid var(--rose)}
+#gate{position:fixed;inset:0;background:linear-gradient(135deg,#e8dfed,#f5eee3 55%,#f2e2e3);z-index:10;display:grid;place-items:center;padding:20px}
+.gate-card{width:min(440px,100%);background:#fffaf3;border:1px solid var(--line);border-radius:20px;padding:30px;box-shadow:var(--shadow);text-align:center}
+.gate-card h1{font-size:39px}.error{color:#a34d5c;font:14px 'Kalam',cursive;min-height:20px}
+footer{text-align:center;color:var(--muted);font:13px 'Kalam',cursive;padding:25px}
+@media(max-width:600px){#app{padding:14px}.brand{font-size:29px}.nav button{font-size:15px;padding:8px 11px}.row{display:block}}
+</style>
+</head>
+<body>
+<div id="gate">
+ <div class="gate-card">
+  <div class="eyebrow">a quiet place to grow in faith</div>
+  <h1>Daily Devotion</h1>
+  <p class="muted">A little time with the Word, a little room for prayer.</p>
+  <div id="setupFields" hidden>
+   <label for="newPass">Create your journal password</label><input id="newPass" type="password" autocomplete="new-password" placeholder="At least 8 characters">
+   <label for="confirmPass">Confirm password</label><input id="confirmPass" type="password" autocomplete="new-password" placeholder="Type it again">
+   <button class="primary" id="createBtn">Create my private journal</button>
+  </div>
+  <div id="unlockFields" hidden>
+   <label for="pass">Enter your password</label><input id="pass" type="password" autocomplete="current-password" placeholder="Your password">
+   <button class="primary" id="unlockBtn">Open my journal</button>
+  </div>
+  <div class="error" id="gateError"></div>
+  <p class="muted" style="font-size:14px">Your journal is stored in this browser on this device. If you clear browser data or forget your password, it may not be recoverable.</p>
+ </div>
+</div>
+<div id="app" hidden>
+<header>
+ <div class="brand">Daily Devotion <small>“Be still, and know.” · Psalm 46:10</small></div>
+ <button id="lockBtn">Lock journal ↗</button>
+</header>
+<nav class="nav" id="nav"></nav>
+<main id="view"></main>
+<footer>made for quiet moments, growing faith, and honest prayers ♡</footer>
+</div>
+<script>
+const $=s=>document.querySelector(s);
+const BOOKS=["Genesis","Exodus","Leviticus","Numbers","Deuteronomy","Joshua","Judges","Ruth","1 Samuel","2 Samuel","1 Kings","2 Kings","1 Chronicles","2 Chronicles","Ezra","Nehemiah","Esther","Job","Psalms","Proverbs","Ecclesiastes","Song of Solomon","Isaiah","Jeremiah","Lamentations","Ezekiel","Daniel","Hosea","Joel","Amos","Obadiah","Jonah","Micah","Nahum","Habakkuk","Zephaniah","Haggai","Zechariah","Malachi","Matthew","Mark","Luke","John","Acts","Romans","1 Corinthians","2 Corinthians","Galatians","Ephesians","Philippians","Colossians","1 Thessalonians","2 Thessalonians","1 Timothy","2 Timothy","Titus","Philemon","Hebrews","James","1 Peter","2 Peter","1 John","2 John","3 John","Jude","Revelation"];
+const NAV=["Home","Devotion","Bible","Prayer Journal","Calendar","Growth","Characters","Dictionary"];
+let vault=null, key=null, active="Home";
+const today=()=>{const d=new Date();return `${d.getFullYear()}-${String(d.getMonth()+1).padStart(2,"0")}-${String(d.getDate()).padStart(2,"0")}`};
+const fresh=()=>({nickname:"",book:"Genesis",chapter:1,completed:[],devotions:[],prayers:[],reflections:[],bookmarks:[],highlights:[],underlines:[],gratitude:[],milestones:[]});
+const enc=s=>new TextEncoder().encode(s), dec=b=>new TextDecoder().decode(b);
+const b64=b=>btoa(String.fromCharCode(...new Uint8Array(b)));
+const unb64=s=>Uint8Array.from(atob(s),c=>c.charCodeAt(0));
+async function derive(password,salt){return crypto.subtle.deriveKey({name:"PBKDF2",salt,iterations:310000,hash:"SHA-256"},await crypto.subtle.importKey("raw",enc(password),"PBKDF2",false,["deriveKey"]),{name:"AES-GCM",length:256},false,["encrypt","decrypt"])}
+async function saveVault(){
+ const iv=crypto.getRandomValues(new Uint8Array(12));
+ const cipher=await crypto.subtle.encrypt({name:"AES-GCM",iv},key,enc(JSON.stringify(vault)));
+ localStorage.setItem("daily-devotion-vault",JSON.stringify({iv:b64(iv),data:b64(cipher)}));
+}
+function showGate(){
+ $("#app").hidden=true;$("#gate").style.display="grid";$("#gateError").textContent="";
+ const has=!!localStorage.getItem("daily-devotion-salt");
+ $("#setupFields").hidden=has;$("#unlockFields").hidden=!has;
+}
+async function unlock(){
+ try{
+  const salt=unb64(localStorage.getItem("daily-devotion-salt"));
+  key=await derive($("#pass").value,salt);
+  const saved=JSON.parse(localStorage.getItem("daily-devotion-vault"));
+  const plain=await crypto.subtle.decrypt({name:"AES-GCM",iv:unb64(saved.iv)},key,unb64(saved.data));
+  vault={...fresh(),...JSON.parse(dec(plain))};openApp();
+ }catch(e){key=null;$("#gateError").textContent="That password didn't unlock the journal. Please try again."}
+}
+async function createVault(){
+ const p=$("#newPass").value,c=$("#confirmPass").value;
+ if(p.length<8){$("#gateError").textContent="Please use at least 8 characters.";return}
+ if(p!==c){$("#gateError").textContent="The passwords don't match.";return}
+ const salt=crypto.getRandomValues(new Uint8Array(16));
+ localStorage.setItem("daily-devotion-salt",b64(salt));key=await derive(p,salt);vault=fresh();await saveVault();openApp();
+}
+function openApp(){ $("#gate").style.display="none";$("#app").hidden=false;renderNav();render() }
+function lock(){key=null;vault=null;$("#pass").value="";$("#newPass").value="";$("#confirmPass").value="";showGate()}
+$("#createBtn").onclick=createVault;$("#unlockBtn").onclick=unlock;$("#pass").addEventListener("keydown",e=>{if(e.key==="Enter")unlock()});$("#lockBtn").onclick=lock;
+function renderNav(){ $("#nav").innerHTML=NAV.map(n=>`<button class="${active===n?"active":""}" data-page="${n}">${n}</button>`).join("");$("#nav").querySelectorAll("button").forEach(b=>b.onclick=()=>{active=b.dataset.page;renderNav();render()})}
+function field(label,id,placeholder="",value=""){return `<label>${label}</label><input id="${id}" placeholder="${placeholder}" value="${esc(value)}">`}
+function area(label,id,placeholder="",value=""){return `<label>${label}</label><textarea id="${id}" placeholder="${placeholder}">${esc(value)}</textarea>`}
+function esc(s){return String(s??"").replace(/[&<>"']/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]))}
+function greeting(){const list=["May you find quiet strength in today's Word.","You are welcome here, just as you are.","A new day, a fresh page, and room to grow.","Take a breath. There is grace for today.","Let this be a moment of stillness and hope."];const d=new Date();return list[(d.getDate()+d.getMonth())%list.length]}
+function render(){
+ const v=$("#view");
+ if(active==="Home")v.innerHTML=home();
+ if(active==="Devotion")v.innerHTML=devotion();
+ if(active==="Bible")v.innerHTML=bible();
+ if(active==="Prayer Journal")v.innerHTML=prayer();
+ if(active==="Calendar")v.innerHTML=calendar();
+ if(active==="Growth")v.innerHTML=growth();
+ if(active==="Characters")v.innerHTML=characters();
+ if(active==="Dictionary")v.innerHTML=dictionary();
+ wire();
+}
+function home(){let done=vault.completed.length;return `<section class="panel"><div class="eyebrow">your little corner of faith</div><h1>${vault.nickname?`Welcome, ${esc(vault.nickname)}.`:"Welcome back."}</h1><p class="greeting">${greeting()}</p><div class="paper-note">“Draw near to God, and he will draw near to you.” <span class="muted">— James 4:8 (ESV)</span></div><p>Take your time. You don't have to rush through your walk with God.</p><button class="primary" data-go="Devotion">Begin today's devotion →</button></section><div class="grid"><div class="tile"><div class="eyebrow">bible journey</div><div class="stat">${done}</div><p>chapters completed</p><button class="soft-btn" data-go="Bible">Continue reading</button></div><div class="tile"><div class="eyebrow">prayer journal</div><div class="stat">${vault.prayers.length}</div><p>prayer entries saved</p><button class="soft-btn" data-go="Prayer Journal">Write a prayer</button></div><div class="tile"><div class="eyebrow">today's page</div><div class="stat">${vault.devotions.some(x=>x.date===today())?"✓":"♡"}</div><p>${vault.devotions.some(x=>x.date===today())?"Devotion saved today":"A fresh page is waiting"}</p><button class="soft-btn" data-go="Devotion">Open devotion</button></div></div>`}
+function devotion(){let d=vault.devotions.find(x=>x.date===today())||{};return `<section class="panel"><div class="eyebrow">evening devotion · ${today()}</div><h1>Come and be still.</h1><p class="muted">A simple rhythm: verse, understanding, reflection, and prayer.</p>${field("Today's Bible reference","devRef","e.g. Genesis 1:1",d.ref||"Genesis 1:1")}<p class="muted">Add the verse text from your Bible translation, then spend a little time with it.</p>${area("Verse text (optional)","devVerse","Write or paste the verse here…",d.verse||"")}${area("Explanation — What does this passage mean?","devExplain","What do you notice about God, people, or the passage?",d.explain||"")}${area("Reflection — What is this teaching you today?","devReflect","A thought, question, or lesson…",d.reflect||"")}${area("Prayer — What would you like to say to God?","devPrayer","Write your prayer…",d.prayer||"")}<button class="primary" id="saveDev">Save today's devotion</button></section>`}
+function bible(){let options=BOOKS.map(b=>`<option ${vault.book===b?"selected":""}>${b}</option>`).join("");return `<section class="book-page"><div class="eyebrow" style="text-align:center">the holy scriptures · reading journal</div><h2>${esc(vault.book)}</h2><div class="chapter">Chapter ${vault.chapter}</div><hr class="rule"><p class="muted" style="text-align:center">Read from your Bible, then use this page to keep your notes and markings.</p><label>Search the Bible books</label><input id="bookSearch" placeholder="Find a book…"><div class="row"><div><label>Choose a book · Old & New Testament</label><select id="bookSelect">${options}</select></div><div>${field("Chapter","chapterInput","Chapter number",vault.chapter)}</div></div><div class="verse-tools"><span class="muted">Mark a verse:</span><button class="swatch" data-color="purple" title="Purple"></button><button class="swatch" data-color="rose" title="Dusty rose"></button><button class="swatch" data-color="beige" title="Beige"></button></div>${field("Verse reference","markRef","e.g. Genesis 1:1")}<div class="row"><button class="soft-btn" id="highlightBtn">Save highlight</button><button class="soft-btn" id="underlineBtn">Underline verse</button><button class="soft-btn" id="bookmarkBtn">Bookmark verse</button></div>${area("Handwritten notes","bibleNotes","What stood out to you?")}<button class="primary" id="saveBibleNote">Save notes</button><hr class="rule"><p class="muted">Reading progress: ${vault.completed.length} chapters completed</p><button class="primary" id="completeChapter">Mark chapter complete + continue →</button></section><section class="panel"><h3>Saved marks & bookmarks</h3>${[...vault.highlights,...(vault.underlines||[]),...vault.bookmarks].slice(-8).map(x=>`<div class="entry">${esc(x.ref)} <span class="tag">${esc(x.kind)}</span></div>`).join("")||"<p class='muted'>Your saved verses will appear here.</p>"}</section>`}
+function prayer(){return `<section class="panel"><div class="eyebrow">a letter to God</div><h1>Dear God,</h1><p class="muted">This page is yours. Write honestly, without needing perfect words.</p>${field("Entry title","prTitle","A prayer for today")}<div class="row"><div><label>Category</label><select id="prCategory"><option>All categories</option><option>Personal</option><option>Family</option><option>Friends</option><option>School</option><option>Praise</option><option>Thanksgiving</option><option>Requests</option><option>Forgiveness</option><option>Other</option></select></div><div>${field("Person (optional)","prPerson","Who are you praying for?")}</div></div>${area("Your prayer","prBody","Dear God, …")}<label><input type="checkbox" id="answered" style="width:auto"> This prayer has been answered</label><button class="primary" id="savePrayer">Save prayer</button></section><section class="panel"><h3>Your prayer letters</h3>${field("Search entries","prSearch","Search title, category, person, or words…")}<div class="row"><div><label>Filter by category</label><select id="prFilter"><option>All categories</option><option>Personal</option><option>Family</option><option>Friends</option><option>School</option><option>Praise</option><option>Thanksgiving</option><option>Requests</option><option>Forgiveness</option><option>Other</option></select></div><div><label>Filter by person</label><input id="personFilter" placeholder="Any person"></div></div><div id="prList">${prayerList(vault.prayers)}</div></section>`}
+function prayerList(items){return [...items].reverse().map((p,i)=>`<div class="entry"><div class="eyebrow">${esc(p.date)} · ${esc(p.category)} ${p.answered? "· answered":""}</div><h3>${esc(p.title||"A prayer")}</h3>${p.person?`<p class="muted">For: ${esc(p.person)}</p>`:""}<p>${esc(p.body)}</p></div>`).join("")||"<p class='muted'>Your prayer letters will be kept here.</p>"}
+function calendar(){let date=new Date(),first=new Date(date.getFullYear(),date.getMonth(),1),days=new Date(date.getFullYear(),date.getMonth()+1,0).getDate(),cells=Array(first.getDay()).fill("").concat(Array.from({length:days},(_,i)=>i+1));return `<section class="panel"><div class="eyebrow">your journey, day by day</div><h1>${date.toLocaleString("en",{month:"long",year:"numeric"})}</h1><div class="calendar">${["Sun","Mon","Tue","Wed","Thu","Fri","Sat"].map(x=>`<div class="day muted">${x}</div>`).join("")}${cells.map(n=>{let dayKey=n?`${date.getFullYear()}-${String(date.getMonth()+1).padStart(2,"0")}-${String(n).padStart(2,"0")}`:"";let hasDev=n&&vault.devotions.some(x=>x.date===dayKey);let hasPrayer=n&&vault.prayers.some(x=>x.date===dayKey);return `<div class="day ${hasDev?"done":""} ${n===date.getDate()?"today":""}">${n||""}${hasPrayer?" ✧":""}</div>`}).join("")}</div><hr class="rule"><p>Devotions saved: <b>${vault.devotions.length}</b> · Prayers written: <b>${vault.prayers.length}</b> · Chapters read: <b>${vault.completed.length}</b></p></section>`}
+function growth(){let total=vault.completed.length;return `<section class="panel"><div class="eyebrow">small steps still matter</div><h1>Your growth journal</h1><div class="grid"><div class="tile"><div class="stat">${total}</div><p>chapters completed</p></div><div class="tile"><div class="stat">${vault.devotions.length}</div><p>devotions saved</p></div><div class="tile"><div class="stat">${vault.prayers.length}</div><p>prayers written</p></div></div><div class="paper-note">No streak penalties here. Missed days are not failures. You can simply begin again.</div><h3>Weekly challenge</h3><p>${["Write down three things you're grateful for.","Read a Bible chapter slowly and note one thing you learned.","Pray for someone you haven't checked in on lately.","Choose one kind action to do quietly."][(Math.floor(Date.now()/604800000))%4]}</p></section>`}
+function characters(){let chars=[["Adam and Eve","Genesis 2–3","The first humans in the biblical story; their choices introduce themes of trust, responsibility, and grace."],["Noah","Genesis 6–9","Known for the ark and the covenant sign of the rainbow."],["Abraham","Genesis 12–25","Called to leave his homeland; central to the biblical story of covenant and faith."],["Sarah","Genesis 17–21","Abraham's wife; her story includes waiting, promise, and the birth of Isaac."],["Joseph","Genesis 37–50","Known for his dreams, hardship, forgiveness, and leadership in Egypt."]];return `<section class="panel"><div class="eyebrow">people in the biblical story</div><h1>Bible character directory</h1><p class="muted">Starting with characters from Genesis. More profiles can be added as your reading journey continues.</p>${chars.map(c=>`<div class="entry"><h3>${c[0]}</h3><span class="tag">${c[1]}</span><p>${c[2]}</p></div>`).join("")}</section>`}
+function dictionary(){let terms=[["Covenant","A solemn promise or binding relationship."],["Faith","Trust and confidence in God."],["Grace","God's generous favor, freely given."],["Mercy","Compassion and forgiveness."],["Wisdom","The ability to live with understanding and good judgment."],["Worship","Honoring and responding to God."],["Repentance","Turning away from wrongdoing and turning toward God."]];return `<section class="panel"><div class="eyebrow">words worth keeping</div><h1>Bible dictionary</h1>${terms.map(t=>`<div class="entry"><h3>${t[0]}</h3><p>${t[1]}</p></div>`).join("")}</section>`}
+function wire(){
+ document.querySelectorAll("[data-go]").forEach(b=>b.onclick=()=>{active=b.dataset.go;renderNav();render()});
+ const byId=id=>$("#"+id);
+ if(byId("saveDev"))byId("saveDev").onclick=async()=>{let d={date:today(),ref:byId("devRef").value,verse:byId("devVerse").value,explain:byId("devExplain").value,reflect:byId("devReflect").value,prayer:byId("devPrayer").value};vault.devotions=vault.devotions.filter(x=>x.date!==today());vault.devotions.push(d);await saveVault();alert("Today's devotion has been saved.");render()};
+ if(byId("savePrayer"))byId("savePrayer").onclick=async()=>{vault.prayers.push({date:today(),title:byId("prTitle").value,category:byId("prCategory").value,person:byId("prPerson").value,body:byId("prBody").value,answered:byId("answered").checked});await saveVault();render()};
+ const filterPrayers=()=>{let q=byId("prSearch")?.value.toLowerCase()||"",cat=byId("prFilter")?.value||"All categories",person=byId("personFilter")?.value.toLowerCase()||"";byId("prList").innerHTML=prayerList(vault.prayers.filter(p=>JSON.stringify(p).toLowerCase().includes(q)&&(cat==="All categories"||p.category===cat)&&p.person.toLowerCase().includes(person)))};["prSearch","prFilter","personFilter"].forEach(id=>{if(byId(id))byId(id).addEventListener("input",filterPrayers)});
+ if(byId("bookSelect"))byId("bookSelect").onchange=async()=>{vault.book=byId("bookSelect").value;await saveVault();render()};
+ if(byId("bookSearch"))byId("bookSearch").oninput=()=>{let q=byId("bookSearch").value.toLowerCase();byId("bookSelect").innerHTML=BOOKS.filter(b=>b.toLowerCase().includes(q)).map(b=>`<option ${vault.book===b?"selected":""}>${b}</option>`).join("")};
+ if(byId("highlightBtn"))byId("highlightBtn").onclick=async()=>{let ref=byId("markRef").value;if(!ref)return;let color=document.querySelector(".swatch.selected")?.dataset.color||"purple";vault.highlights.push({ref,color,kind:"highlight"});await saveVault();render()};
+ if(byId("underlineBtn"))byId("underlineBtn").onclick=async()=>{let ref=byId("markRef").value;if(!ref)return;vault.underlines=vault.underlines||[];vault.underlines.push({ref,kind:"underline"});await saveVault();render()};
+ if(byId("bookmarkBtn"))byId("bookmarkBtn").onclick=async()=>{let ref=byId("markRef").value;if(!ref)return;vault.bookmarks.push({ref,kind:"bookmark"});await saveVault();render()};
+ document.querySelectorAll(".swatch").forEach(b=>b.onclick=()=>{document.querySelectorAll(".swatch").forEach(x=>x.classList.remove("selected"));b.classList.add("selected")});
+ if(byId("saveBibleNote"))byId("saveBibleNote").onclick=async()=>{vault.reflections.push({date:today(),ref:`${vault.book} ${vault.chapter}`,note:byId("bibleNotes").value});await saveVault();alert("Your notes have been saved.")};
+ if(byId("completeChapter"))byId("completeChapter").onclick=async()=>{let ref=`${vault.book} ${vault.chapter}`;if(!vault.completed.includes(ref))vault.completed.push(ref);vault.chapter++;await saveVault();render();};
+ if(byId("chapterInput"))byId("chapterInput").onchange=async()=>{vault.chapter=Math.max(1,parseInt(byId("chapterInput").value)||1);await saveVault();render()};
+}
+(function init(){if(!window.crypto?.subtle){$("#gateError").textContent="This browser does not support the secure journal lock. Please use an updated browser.";return}showGate()})();
+</script>
+</body>
+</html>
